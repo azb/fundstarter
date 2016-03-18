@@ -1,23 +1,34 @@
-///index.js part1
+///index.js part2
 
-var fs = require('fs')
+var http = require('http');
+var fs = require('fs');
 
-function readHtml(callback){
-fs,readFile("./index.html","utf8",function read(err, content)){
-if (err) return callback(err)
-callback(null, content)
-}
+var requestListener = function(rqst, resp)
+	{
+	fs.open(__dirname + "./index.html" , 'r', function(err, fd)
+		{
+		if (fs.exists() && !err)
+			{
+			fs.fstat(fd, function(err, stats)
+				{
+				if (!err)
+					{
+					var bufferSize = stats.size;
+					buffer = new Buffer(stats.size);
+					fs.read(fd, buffer, 0, bufferSize, 0, function(err, bytesRead, buff)
+						{
+						if (!err)
+							{
+							resp.end(buff);
+							}
+						});
+					}
+				});
+			}
+		});
+	}
+
 }
 
-readHtml(function (err, content)){
-console.log(content)
-}
-
-function readHtmlSync(){
-fs,readFileSync("./index.html","utf8"){
-}
-}
-
-readHtmlSync(){
-console.log(content)
-}
+var server = http.createServer(requestListener);
+server.listen(8080);
