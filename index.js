@@ -1,15 +1,23 @@
-var express = require('express')
-var app = express()
+///index.js part1
 
-/* serves all the static files*/
-app.set('port', (process.env.PORT || 8080))
-app.use(express.static(__dirname + '/public'))
+var fs = require('fs')
 
-/*serves main page*/
-app.get('/', function(request, response) {
-response.sendfile('index.html') 
-})
+function readHtml(callback){
+fs,readFile("./index.html","utf8",function read(err, content)){
+if (err) return callback(err)
+callback(null, content)
+}
+}
 
-app.listen(app.get('port'), function() {
-  console.log("Node app is running at localhost:" + app.get('port'))
-})
+readHtml(function (err, content)){
+console.log(content)
+}
+
+function readHtmlSync(){
+fs,readFileSync("./index.html","utf8"){
+}
+}
+
+readHtmlSync(){
+console.log(content)
+}
